@@ -7,8 +7,23 @@ var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
-
+var api = require('./routes/api');
+var cors = require('cors');
 var app = express();
+
+app.use(cors());
+
+//跨域
+var whitelist = ['http://192.168.199.139:8090'];
+var corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  }
+}
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -24,6 +39,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/users', users);
+app.use('/api', api);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
