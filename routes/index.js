@@ -12,6 +12,9 @@ router.get('/test', function(req, res, next) {
 
 router.post('/add', function(req, res, next) {
   console.log(JSON.stringify(req.body));
+
+  var start = new Date(req.body.date + ' ' + req.body.start_time);
+  var end = new Date(req.body.date + ' ' + req.body.end_time);
   res.send(JSON.stringify(req.body));
 });
 
